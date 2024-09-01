@@ -1,8 +1,17 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 
-void main() {
+import 'package:http/http.dart' as http;
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await dotenv.load(fileName: '.env');
+
   runApp(const MyApp());
 }
 
@@ -46,6 +55,33 @@ class _MapScreenState extends State<MapScreen> {
     super.dispose();
   }
 
+  Future<String> getAddressFromCoordinates(
+      double latitude, double longitude) async {
+    final apiKey = dotenv.env['API_KEY'];
+    final url =
+        'https://api.opencagedata.com/geocode/v1/json?q=$latitude+$longitude&language=ru&key=$apiKey';
+
+    final response = await http.get(Uri.parse(url));
+    if (response.statusCode == 200) {
+      final data = json.decode(response.body);
+      if (data['results'].isNotEmpty) {
+        final address = data['results'][0]['formatted'];
+        final tz = data['results'][0]['annotations']['timezone']['name'];
+        return '$address | $tz';
+      }
+    }
+    return 'Failed to get address';
+  }
+
+  void _showSnackBar(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        backgroundColor: Colors.black,
+        content: Text(message),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -65,15 +101,10 @@ class _MapScreenState extends State<MapScreen> {
                 initialZoom: 5,
                 minZoom: 3,
                 maxZoom: 10,
-                onTap: (tapPosition, point) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      backgroundColor: Colors.black,
-                      content: Text(
-                        '$point',
-                      ),
-                    ),
-                  );
+                onTap: (tapPosition, point) async {
+                  String result = await getAddressFromCoordinates(
+                      point.latitude, point.longitude);
+                  _showSnackBar(result);
                 },
                 cameraConstraint: CameraConstraint.contain(
                   bounds: LatLngBounds(
