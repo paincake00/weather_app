@@ -59,7 +59,7 @@ class _MapScreenState extends State<MapScreen> {
       double latitude, double longitude) async {
     final apiKey = dotenv.env['API_KEY'];
     final url =
-        'https://api.opencagedata.com/geocode/v1/json?q=$latitude+$longitude&language=ru&key=$apiKey';
+        'https://api.opencagedata.com/geocode/v1/json?q=$latitude+$longitude&abbrv=1&address_only=1&language=ru&key=$apiKey';
 
     final response = await http.get(Uri.parse(url));
     if (response.statusCode == 200) {
