@@ -1,10 +1,10 @@
-class Location {
+class LocationEntity {
   final String? fullName;
   final String? normalizedCity;
   final String? state;
   final String? country;
 
-  Location({
+  LocationEntity({
     this.fullName,
     this.normalizedCity,
     this.state,

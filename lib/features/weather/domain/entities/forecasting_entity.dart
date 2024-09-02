@@ -1,9 +1,9 @@
-class Forecasting {
+class ForecastingEntity {
   final String? time;
   final double? temperature;
   final int? weatherCode;
 
-  Forecasting({
+  ForecastingEntity({
     this.time,
     this.temperature,
     this.weatherCode,

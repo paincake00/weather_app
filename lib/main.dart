@@ -6,6 +6,7 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 
 import 'package:http/http.dart' as http;
+import 'package:weather_app/core/constatns/constants.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -57,7 +58,6 @@ class _MapScreenState extends State<MapScreen> {
 
   Future<String> getAddressFromCoordinates(
       double latitude, double longitude) async {
-    final apiKey = dotenv.env['API_KEY'];
     final url =
         'https://api.opencagedata.com/geocode/v1/json?q=$latitude+$longitude&abbrv=1&address_only=1&language=ru&key=$apiKey';
 
@@ -101,7 +101,7 @@ class _MapScreenState extends State<MapScreen> {
                 initialZoom: 5,
                 minZoom: 3,
                 maxZoom: 10,
-                onTap: (tapPosition, point) async {
+                onTap: (TapPosition tapPosition, LatLng point) async {
                   String result = await getAddressFromCoordinates(
                       point.latitude, point.longitude);
                   _showSnackBar(result);

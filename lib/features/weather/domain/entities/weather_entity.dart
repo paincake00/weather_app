@@ -1,14 +1,14 @@
-import 'package:weather_app/features/weather/domain/entities/forecasting.dart';
+import 'package:weather_app/features/weather/domain/entities/forecasting_entity.dart';
 
-class Weather {
+class WeatherEntity {
   final String? timezone;
   final String? currentTime;
   final double? currentTemperature;
   final int? isDay;
   final int? curretnWeatherCode;
-  final List<Forecasting>? forecastings;
+  final List<ForecastingEntity>? forecastings;
 
-  Weather({
+  WeatherEntity({
     this.timezone,
     this.currentTime,
     this.currentTemperature,
