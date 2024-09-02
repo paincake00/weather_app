@@ -22,20 +22,13 @@ class OpenCageDataApi {
           'abbrv': abbrv,
           'address_only': addressOnly,
           'language': language,
+          'key': apiKey,
         },
       );
 
       if (response.statusCode == HttpStatus.ok) {
         final data = response.data;
-        return DataSuccess(
-          LocationModel(
-            fullName: data['results'][0]['formatted'],
-            normalizedCity: data['results'][0]['components']
-                ['_normalized_city'],
-            state: data['results'][0]['components']['state'],
-            country: data['results'][0]['components']['country'],
-          ),
-        );
+        return DataSuccess(LocationModel.fromJson(data));
       }
       return DataFailure(
         DioException(

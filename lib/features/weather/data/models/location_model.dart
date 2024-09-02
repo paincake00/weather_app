@@ -10,10 +10,11 @@ class LocationModel extends LocationEntity {
 
   factory LocationModel.fromJson(Map<String, dynamic> json) {
     return LocationModel(
-      fullName: json['formatted'] ?? "",
-      normalizedCity: json['city'] ?? "",
-      state: json['state'] ?? "",
-      country: json['country'] ?? "",
+      fullName: json['results'][0]['formatted'] ?? "",
+      normalizedCity:
+          json['results'][0]['components']['_normalized_city'] ?? "",
+      state: json['results'][0]['components']['state'] ?? "",
+      country: json['results'][0]['components']['country'] ?? "",
     );
   }
 
