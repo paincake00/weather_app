@@ -6,4 +6,8 @@ abstract class LocationRepository {
   Future<DataState<LocationEntity>> getLocationFromCoordinates(
     LatLng coordinates,
   );
+
+  Future<void> saveLocationToStorage(LatLng coordinates);
+
+  Future<LatLng> getLocationFromStorage();
 }
