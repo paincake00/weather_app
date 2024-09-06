@@ -32,7 +32,7 @@ class OpenMeteoApi {
         final data = response.data;
         return DataSuccess(WeatherModel.fromJson(data));
       }
-      return DataFailure(
+      return DataError(
         DioException(
           error: response.statusMessage,
           response: response,
@@ -41,7 +41,7 @@ class OpenMeteoApi {
         ),
       );
     } on DioException catch (e) {
-      return DataFailure(e);
+      return DataError(e);
     }
   }
 }

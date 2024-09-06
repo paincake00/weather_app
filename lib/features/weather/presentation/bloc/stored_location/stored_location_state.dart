@@ -1,6 +1,6 @@
 import 'package:latlong2/latlong.dart';
 
-class StoredLocationState {
+abstract class StoredLocationState {
   final LatLng? coordinates;
 
   const StoredLocationState({
