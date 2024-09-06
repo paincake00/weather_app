@@ -10,7 +10,7 @@ class GetLocationFromStorageUseCase implements UseCase<LatLng, void> {
   }) : _locationRepository = locationRepository;
 
   @override
-  Future<LatLng> call({required void params}) {
+  Future<LatLng> call({void params}) {
     return _locationRepository.getLocationFromStorage();
   }
 }
