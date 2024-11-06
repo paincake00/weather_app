@@ -5,7 +5,7 @@ class WeatherEntity {
   final String? currentTime;
   final double? currentTemperature;
   final int? isDay;
-  final int? curretnWeatherCode;
+  final int? currentWeatherCode;
   final List<ForecastingEntity>? forecastings;
 
   WeatherEntity({
@@ -13,7 +13,7 @@ class WeatherEntity {
     this.currentTime,
     this.currentTemperature,
     this.isDay,
-    this.curretnWeatherCode,
+    this.currentWeatherCode,
     this.forecastings,
   });
 }

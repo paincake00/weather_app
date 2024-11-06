@@ -8,12 +8,12 @@ class StoredLocationEvent {
   });
 }
 
-class GetLocationEvent extends StoredLocationEvent {
-  GetLocationEvent();
+class GetCoordsEvent extends StoredLocationEvent {
+  GetCoordsEvent();
 }
 
-class SetLocationEvent extends StoredLocationEvent {
-  SetLocationEvent({
+class SetCoordsEvent extends StoredLocationEvent {
+  SetCoordsEvent({
     required LatLng coordinates,
   }) : super(coordinates: coordinates);
 }

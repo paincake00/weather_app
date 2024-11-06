@@ -17,13 +17,13 @@ class StoredLocationBloc
         super(
           const StoredLocationLoading(),
         ) {
-    on<GetLocationEvent>(_onGetLocation);
+    on<GetCoordsEvent>(_onGetLocation);
 
-    on<SetLocationEvent>(_onSetLocation);
+    on<SetCoordsEvent>(_onSetLocation);
   }
 
   void _onGetLocation(
-    GetLocationEvent event,
+    GetCoordsEvent event,
     Emitter<StoredLocationState> emit,
   ) async {
     emit(const StoredLocationLoading());
@@ -34,7 +34,7 @@ class StoredLocationBloc
   }
 
   void _onSetLocation(
-    SetLocationEvent event,
+    SetCoordsEvent event,
     Emitter<StoredLocationState> emit,
   ) async {
     emit(const StoredLocationLoading());

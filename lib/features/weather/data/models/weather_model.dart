@@ -7,7 +7,7 @@ class WeatherModel extends WeatherEntity {
     super.currentTime,
     super.currentTemperature,
     super.isDay,
-    super.curretnWeatherCode,
+    super.currentWeatherCode,
     super.forecastings,
   });
 
@@ -15,18 +15,18 @@ class WeatherModel extends WeatherEntity {
     return WeatherModel(
       timezone: json['timezone'] ?? "",
       currentTime: json['current']['time'] ?? "",
-      currentTemperature: json['current']['temperature'] ?? 0.0,
+      currentTemperature: json['current']['temperature_2m'] ?? 0.0,
       isDay: json['current']['is_day'] ?? 0,
-      curretnWeatherCode: json['current']['weather_code'] ?? 0,
-      forecastings: json['hourly'],
+      currentWeatherCode: json['current']['weather_code'] ?? 0,
+      forecastings: getForecastings(json['hourly']),
     );
   }
 
-  List<ForecastingModel> getForecastings(Map<String, dynamic> json) {
+  static List<ForecastingModel> getForecastings(Map<String, dynamic> json) {
     List<ForecastingModel> forecastings = [];
-    List<String> times = json['time'];
-    List<double> temperatures = json['temperature_2m'];
-    List<int> weatherCodes = json['weather_code'];
+    List<dynamic> times = json['time'];
+    List<dynamic> temperatures = json['temperature_2m'];
+    List<dynamic> weatherCodes = json['weather_code'];
 
     for (int i = 0; i < times.length; i++) {
       forecastings.add(
