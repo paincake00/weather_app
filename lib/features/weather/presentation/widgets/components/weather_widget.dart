@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:weather_app/core/utils/weather_code_parse.dart';
 import 'package:weather_app/features/weather/domain/entities/forecasting_entity.dart';
 
@@ -34,31 +35,27 @@ class WeatherWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
+    return Column(
       children: [
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            Column(
+            Stack(
+              alignment: Alignment.center,
               children: [
-                Stack(
-                  alignment: Alignment.center,
-                  children: [
-                    const SizedBox(
-                      width: 180,
-                      height: 180,
-                      child: DecoratedBox(
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          shape: BoxShape.circle,
-                        ),
-                      ),
+                const SizedBox(
+                  width: 180,
+                  height: 180,
+                  child: DecoratedBox(
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      shape: BoxShape.circle,
                     ),
-                    Text(
-                      (currentWeatherCode ?? -1).toCondition.toEmoji,
-                      style: const TextStyle(fontSize: 120),
-                    ),
-                  ],
+                  ),
+                ),
+                Text(
+                  (currentWeatherCode ?? -1).toCondition.toEmoji,
+                  style: const TextStyle(fontSize: 120),
                 ),
               ],
             ),
@@ -67,9 +64,9 @@ class WeatherWidget extends StatelessWidget {
               children: [
                 TextPanel(text: timezone ?? 'undefined'),
                 TextPanel(
-                    text: 'Updated: ${currentTime.toString().split('T')[1]}'),
+                    text:
+                        'Updated: ${DateFormat('hh:mm a').format(DateTime.parse(currentTime!))}'),
                 Row(
-                  // mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     TextPanel(text: '$currentTemperature °C'),
                     Padding(
@@ -89,17 +86,111 @@ class WeatherWidget extends StatelessWidget {
             ),
           ],
         ),
-        // if (forecastings != null)
-        //   for (var forecasting in forecastings!)
-        //     TextPanel(
-        //       text: '''
-        //         ${forecasting.time}
-        //         ${forecasting.temperature} °C
-        //         ${forecasting.weatherCode}
-        //         ''',
-        //     ),
+        SizedBox(
+          height: 200,
+          child: ForecastingWidget(forecastings: forecastings),
+        ),
       ],
     );
+  }
+}
+
+class ForecastingWidget extends StatelessWidget {
+  final List<ForecastingEntity>? forecastings;
+
+  const ForecastingWidget({
+    super.key,
+    this.forecastings,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return ListView.builder(
+      scrollDirection: Axis.horizontal,
+      itemCount: forecastings?.length ?? 0,
+      itemBuilder: (context, index) {
+        final forecasting = forecastings![index];
+        return Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: FittedBox(
+            fit: BoxFit.scaleDown,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(10),
+              child: ColoredBox(
+                color: Colors.white,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    children: [
+                      SizedBox(
+                        child: DateForecasting(
+                          time: forecasting.time!,
+                          index: index,
+                        ),
+                      ),
+                      Text(
+                        (forecasting.weatherCode ?? -1).toCondition.toEmoji,
+                        style: const TextStyle(fontSize: 70),
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          // Text(
+                          //   DateFormat('dd MMM')
+                          //       .format(DateTime.parse(forecasting.time!)),
+                          // ),
+                          // Text(
+                          //   DateFormat('EEEE')
+                          //       .format(DateTime.parse(forecasting.time!)),
+                          // ),
+                          Text(
+                            DateFormat('hh:mm a')
+                                .format(DateTime.parse(forecasting.time!)),
+                          ),
+                          Text(
+                            '${forecasting.temperature} °C',
+                          ),
+                          Text(
+                            (forecasting.weatherCode ?? -1).toCondition.name,
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+}
+
+class DateForecasting extends StatelessWidget {
+  final String time;
+  final int index;
+
+  const DateForecasting({
+    super.key,
+    required this.time,
+    required this.index,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    if (index == 0) {
+      return const TextPanel(
+        text: 'Today',
+      );
+    } else if (index % 24 == 0) {
+      return TextPanel(
+        text:
+            '${DateFormat('dd MMM').format(DateTime.parse(time))}, ${DateFormat('EEEE').format(DateTime.parse(time))}',
+      );
+    }
+    return const SizedBox();
   }
 }
 
@@ -128,7 +219,6 @@ class TextPanel extends StatelessWidget {
                 style: const TextStyle(
                   fontSize: 16,
                   color: Colors.black,
-                  // fontWeight: FontWeight.bold,
                   fontFamily: 'Roboto',
                 ),
               ),

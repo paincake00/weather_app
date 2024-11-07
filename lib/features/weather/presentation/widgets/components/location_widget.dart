@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:weather_app/features/weather/presentation/widgets/screens/map_screen.dart';
 
 class LocationWidget extends StatelessWidget {
   final String? fullName;
@@ -39,7 +40,14 @@ class LocationWidget extends StatelessWidget {
                   ),
                 ),
                 IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const MapScreen(),
+                        ),
+                      );
+                    },
                     icon: const Icon(
                       Icons.location_on,
                       size: 30,
