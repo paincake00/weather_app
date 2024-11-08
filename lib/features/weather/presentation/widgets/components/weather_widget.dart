@@ -128,31 +128,22 @@ class ForecastingWidget extends StatelessWidget {
                           index: index,
                         ),
                       ),
-                      Text(
-                        (forecasting.weatherCode ?? -1).toCondition.toEmoji,
-                        style: const TextStyle(fontSize: 70),
-                      ),
                       Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          // Text(
-                          //   DateFormat('dd MMM')
-                          //       .format(DateTime.parse(forecasting.time!)),
-                          // ),
-                          // Text(
-                          //   DateFormat('EEEE')
-                          //       .format(DateTime.parse(forecasting.time!)),
-                          // ),
                           Text(
-                            DateFormat('hh:mm a')
+                            DateFormat('hh a')
                                 .format(DateTime.parse(forecasting.time!)),
                           ),
                           Text(
-                            '${forecasting.temperature} °C',
+                            (forecasting.weatherCode ?? -1).toCondition.toEmoji,
+                            style: const TextStyle(fontSize: 50),
                           ),
                           Text(
                             (forecasting.weatherCode ?? -1).toCondition.name,
+                          ),
+                          Text(
+                            '${forecasting.temperature} °C',
                           ),
                         ],
                       ),

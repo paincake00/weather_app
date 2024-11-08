@@ -40,18 +40,19 @@ class LocationWidget extends StatelessWidget {
                   ),
                 ),
                 IconButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const MapScreen(),
-                        ),
-                      );
-                    },
-                    icon: const Icon(
-                      Icons.location_on,
-                      size: 30,
-                    )),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const MapScreen(),
+                      ),
+                    );
+                  },
+                  icon: const Icon(
+                    Icons.location_on,
+                    size: 30,
+                  ),
+                ),
               ],
             ),
           ),

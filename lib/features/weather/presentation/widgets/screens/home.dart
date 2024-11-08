@@ -55,10 +55,17 @@ class Home extends StatelessWidget {
               Expanded(
                 child: const WeatherView(),
               ),
-              const LocationView(),
+              // const LocationView(),
             ],
           ),
         ),
+      ),
+      bottomSheet: DecoratedBox(
+        decoration: BoxDecoration(
+          color: Colors.blue[300],
+          borderRadius: BorderRadius.circular(0),
+        ),
+        child: const LocationView(),
       ),
     );
   }
